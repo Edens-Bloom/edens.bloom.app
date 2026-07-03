@@ -168,8 +168,7 @@ const ProductGrid: React.FC = () => {
           {products
             .filter((p) => {
               if (selectedCategory === "all") return true;
-              const prodCat = (p.productType || "").toLowerCase();
-              return prodCat === selectedCategory;
+              return p.productType === selectedCategory;
             })
             .map((product) => {
               return (
