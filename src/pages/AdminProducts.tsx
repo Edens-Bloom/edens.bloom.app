@@ -441,25 +441,19 @@ const AdminProducts: React.FC = () => {
               >
                 Product Type *
               </label>
-              <select
+              <input
+                type="text"
                 name="productType"
                 value={formData.productType}
                 onChange={handleChange}
+                placeholder="Enter product type"
                 style={{
                   width: "100%",
                   padding: "0.6rem",
                   borderRadius: "0.4rem",
                   border: "1px solid #ddd",
                 }}
-              >
-                <option value="others">Others</option>
-                <option value="bouquet">Bouquet</option>
-                <option value="keyChain">Key Chain</option>
-                <option value="pot flower">Pot Flower</option>
-                <option value="hair clip">Hair Clip</option>
-                <option value="materials">Materials</option>
-                <option value="single rose">Single Rose</option>
-              </select>
+              />
             </div>
 
             <div className="form-group">
