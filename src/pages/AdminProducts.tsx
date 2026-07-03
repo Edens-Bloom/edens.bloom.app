@@ -107,6 +107,7 @@ const AdminProducts: React.FC = () => {
         inStock: productDetails.inStock?.toString() || "true",
       });
       setMainImagePreview(productDetails.imageUrl || null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       setAddons(productDetails.addOns);
     } catch (error) {
       console.log(error);
