@@ -1,5 +1,53 @@
 @use "../../styles/variables" as *;
 
+/* Category filter (horizontal scroll) */
+.product-grid__filter-wrap {
+  width: 100%;
+  padding-top: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-top: 1px solid #ebe4dc;
+}
+
+.category-filter__list {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-item {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #e8e0d8;
+  background: #fffefb;
+  color: #4a3728;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform 0.12s,
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.12);
+  }
+}
+
+.category-item--active {
+  background: #8b5e3c;
+  color: #fff;
+  border-color: #8b5e3c;
+}
+
 // Modal overlay
 .product-modal-overlay {
   position: fixed;

@@ -39,6 +39,11 @@ const ProductGrid: React.FC = () => {
     updateSelectedProduct: updateSelected,
     loading: { fetchById: isFetchingById },
   } = useStore();
+  const categories = new Set<string>([
+    "all",
+    ...products.map((p) => p.productType || "others"),
+  ]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showModal, setShowModal] = useState(false);
   const [addedFlash, setAddedFlash] = useState(false);
   useEffect(() => {
@@ -136,65 +141,98 @@ const ProductGrid: React.FC = () => {
             View All Products
           </a>
         </div>
-        <div className="product-grid__cards">
-          {products.map((product) => {
-            return (
-              <div key={product.id} className="product-card fade-up visible">
-                <div className="product-card__media ambient-shadow felt-texture">
-                  <button
-                    type="button"
-                    className="product-card__media-link"
-                    aria-label={`View ${product.name}`}
-                    onClick={() => handleProductClick(product)}
-                  >
-                    <img src={product.imageUrl} alt={product.name} />
-                  </button>
-                  {product.badge && <Badge type={product.badge as BadgeType} />}
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.5rem",
-                    alignContent: "center",
-                    alignItems: "center",
-                  }}
+        <div className="product-grid__filter-wrap">
+          <div className="category-filter">
+            <div
+              className="category-filter__list"
+              role="tablist"
+              aria-label="Filter products by category"
+            >
+              {Array.from(categories).map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`category-item ${selectedCategory === cat ? "category-item--active" : ""}`}
+                  onClick={() => setSelectedCategory(cat)}
+                  role="tab"
+                  aria-selected={selectedCategory === cat}
                 >
-                  <div className="product-card__info">
-                    <h4 className="product-card__title" title={product.name}>
-                      {product.name}
-                    </h4>
-                  </div>
-                  <div className="product-card__price-row">
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                      }}
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="product-grid__cards">
+          {products
+            .filter((p) => {
+              if (selectedCategory === "all") return true;
+              const prodCat = (p.productType || "").toLowerCase();
+              return prodCat === selectedCategory;
+            })
+            .map((product) => {
+              return (
+                <div key={product.id} className="product-card fade-up visible">
+                  <div className="product-card__media ambient-shadow felt-texture">
+                    <button
+                      type="button"
+                      className="product-card__media-link"
+                      aria-label={`View ${product.name}`}
+                      onClick={() => handleProductClick(product)}
                     >
-                      {product.oldPrice && (
-                        <span className="product-card__old-price">
-                          {formatRs(Number(product.oldPrice))}
-                        </span>
-                      )}
-                      <span className="product-card__price">
-                        {formatRs(product.price)}
-                      </span>
-                    </div>
+                      <img src={product.imageUrl} alt={product.name} />
+                    </button>
+                    {product.badge && (
+                      <Badge type={product.badge as BadgeType} />
+                    )}
                   </div>
-                  <button
-                    type="button"
-                    className="product-card__meta-link"
-                    onClick={() => handleProductClick(product)}
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                      alignContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    <span className="product-card__view-btn">View Detail</span>
-                  </button>
+                    <div className="product-card__info">
+                      <h4 className="product-card__title" title={product.name}>
+                        {product.name}
+                      </h4>
+                    </div>
+                    <div className="product-card__price-row">
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                        }}
+                      >
+                        {product.oldPrice && (
+                          <span className="product-card__old-price">
+                            {formatRs(Number(product.oldPrice))}
+                          </span>
+                        )}
+                        <span className="product-card__price">
+                          {formatRs(product.price)}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="product-card__meta-link"
+                      onClick={() => handleProductClick(product)}
+                    >
+                      <span className="product-card__view-btn">
+                        View Detail
+                      </span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </section>
 

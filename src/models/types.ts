@@ -49,6 +49,26 @@ export interface Product {
   productNumber: string;
 }
 
+export const Category = {
+  ALL: "ALL",
+  BOUQUET: "BOUQUET",
+  KEYRING: "KEYRING",
+  POT_FLOWER: "POT_FLOWER",
+  HAIR_CLIP: "HAIR_CLIP",
+  TABLE_DECOR: "TABLE_DECOR",
+} as const;
+
+export type Category = (typeof Category)[keyof typeof Category];
+
+export const Filter = {
+  ALL: { label: "All", value: "all", index: 0 },
+  BOUQUET: { label: "Bouquet", value: "bouquet", index: 1 },
+  KEYRING: { label: "Keyring", value: "keyring", index: 2 },
+  POT_FLOWER: { label: "Pot Flower", value: "pot flower", index: 3 },
+  HAIR_CLIP: { label: "Hair Clip", value: "hair clip", index: 4 },
+  TABLE_DECOR: { label: "Table Decor", value: "table decor", index: 5 },
+};
+
 export interface CartItem extends SelectedProduct {
   subTotal: number;
 }
